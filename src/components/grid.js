@@ -15,6 +15,7 @@ import Cell from './cell';
 import Preview from './preview';
 import {belongs, createRandomBlock} from './helpers';
 import {rotate} from './rotation';
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
 export default class Grid extends Component {
     constructor(props) {
@@ -506,10 +507,25 @@ export default class Grid extends Component {
     }
 
     render() {
+        const config = {
+            velocityThreshold: 0.3,
+            directionalOffsetThreshold: 80
+          };
         return (
-            <View style={{flex: 1, justifyContent: 'space-around'}}>
+            <GestureRecognizer
+        onSwipeUp={() => {}}
+        onSwipeDown={() => this.down()}
+        onSwipeLeft={() => this.shiftCells('left')}
+        onSwipeRight={() => this.shiftCells('right')}
+        config={config}
+        style={{
+          flex: 1,
+          backgroundColor: this.state.backgroundColor
+        }}
+        >
+        <View style={{flex: 1, justifyContent: 'space-around'}}>
                 <View style={{paddingTop: 40, justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{fontWeight: '700', fontSize: 26}}>REACT-NATIVE-TETRIS</Text>
+                    <Text style={{fontWeight: '700', fontSize: 26}}>SIMPLE TETRIS</Text>
                     <Text style={{paddingTop: 10, fontSize: 16}}>Score: {this.state.score}</Text>
                 </View>
                 <View style={{flexDirection: 'row', justifyContent: 'center'}}>
@@ -525,6 +541,7 @@ export default class Grid extends Component {
 
                 {this.renderStart()}
             </View>
+      </GestureRecognizer>
         )
     }
 }
